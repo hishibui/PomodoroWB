@@ -1,5 +1,5 @@
 let timer;
-let timeRemaining = 1 * 5; // Initial time in seconds
+let timeRemaining = 25 * 60; // Initial time in seconds
 let currentMode = "pomodoro";
 let flowCount = 0;
 let isPaused = true; // Track whether the timer is paused or running
