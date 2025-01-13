@@ -1,70 +1,119 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  body {
-    background: url('fireplace-background.jpg') no-repeat center center/cover;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-  }
-  
-  .container {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
-  }
-  
-  h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
-  
-  .mode-buttons button {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .mode-buttons .active {
-    background-color: white;
-    color: black;
-  }
-  
-  .mode-buttons button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .timer {
-    font-size: 6em;
-    margin: 20px 0;
-  }
-  
-  .controls button {
-    background-color: white;
-    color: black;
-    border: none;
-    padding: 10px 30px;
-    margin: 5px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s;
-  }
-  
-  .controls button:hover {
-    background-color: #ddd;
-  }
-  
+/* General styles */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif, sans-serif;
+  background-color: #161616;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container for the app */
+.container {
+  text-align: center;
+}
+
+/* Logo section */
+.logo {
+  margin-bottom: 20px;
+}
+
+.logo .star-icon {
+  font-size: 10px;
+  color: #377E57;
+}
+
+.logo h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 5px 0;
+  color: #377E57;
+}
+
+/* Timer container styles */
+.timer-container {
+  background-color: #377E57;
+  padding: 30px;
+  border-radius: 20px;
+  width: 400px;
+  margin: 0 auto;
+}
+
+/* Mode buttons */
+.modes {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.mode-button {
+  flex: 1;
+  background: #fff;
+  color: 377E57;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin: 0 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.mode-button.active {
+  background-color: #1b1b1b;
+  color: #fff;
+}
+
+/* Timer display */
+.timer {
+  font-size: 50px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+/* Controls (Start/Reset buttons) */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.control-button {
+  background-color: #fff;
+  color: #377E57;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Flow indicator */
+.flow-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background-color: #cdcdcd;
+  border-radius: 50%;
+}
+
+.circle.active {
+  background-color: 377E57;
+}
+
+.star {
+  height: 100px;
+  padding: 20px;
+}
