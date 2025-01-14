@@ -1,11 +1,9 @@
 let timer;
-let timeRemaining = 25 * 60; // Initial time in seconds
+let timeRemaining = 1 * 5; // Initial time in seconds
 let currentMode = "pomodoro";
 let flowCount = 0;
 let isPaused = true; // Track whether the timer is paused or running
 const audio = new Audio("Ram Bell Sound.mp3");
-let isWaitingForContinue = false;
-let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 const timerDisplay = document.getElementById("timer");
 const modeButtons = document.querySelectorAll(".mode-button");
@@ -15,19 +13,8 @@ const flowCircles = document.querySelectorAll(".circle");
 
 // Request notification permission when the page loads
 document.addEventListener("DOMContentLoaded", () => {
-  if (Notification.permission === "default") {
-    Notification.requestPermission();
-  }
   initializeTodoList();
 });
-
-function showNotification(message) {
-  if (Notification.permission === "granted") {
-    new Notification(message);
-  } else {
-    console.warn("Notifications are disabled or not supported.");
-  }
-}
 
 function playSound() {
   audio.play().catch((err) => {
@@ -50,21 +37,20 @@ function setMode(mode) {
 
   if (mode === "pomodoro") timeRemaining = 25 * 60;
   else if (mode === "short-break") timeRemaining = 5 * 60;
-  else if (mode === "long-break") timeRemaining = 10 * 60;
+  else if (mode === "long-break") timeRemaining = 15 * 60; // Updated to 15 minutes for long break
 
   updateTimerDisplay();
 }
 
 function handleTimerEnd() {
   playSound();
-  isWaitingForContinue = true;
   
   if (currentMode === "pomodoro") {
-    showNotificationWithContinue("Time's up! Click to take a break");
-  } else if (currentMode === "short-break") {
-    showNotificationWithContinue("Break's over! Click to start working");
-  } else if (currentMode === "long-break") {
-    showNotificationWithContinue("Long break finished! Click to get back to work");
+    flowCount++;
+    updateFlowIndicator();
+    setMode(flowCount % 4 === 0 ? "long-break" : "short-break");
+  } else {
+    setMode("pomodoro");
   }
 }
 
@@ -129,38 +115,6 @@ modeButtons.forEach((btn) => btn.addEventListener("click", () => setMode(btn.id)
 // Initialize the timer display and flow indicator
 updateTimerDisplay();
 updateFlowIndicator();
-
-function showNotificationWithContinue(message) {
-  if (!("Notification" in window)) {
-    console.warn("Notifications not supported");
-    return;
-  }
-
-  if (Notification.permission === "granted") {
-    const notification = new Notification("Pomo-Bloom", {
-      body: message,
-      requireInteraction: true
-    });
-
-    notification.onclick = () => {
-      notification.close();
-      if (isWaitingForContinue) {
-        isWaitingForContinue = false;
-        proceedToNextPhase();
-      }
-    };
-  }
-}
-
-function proceedToNextPhase() {
-  if (currentMode === "pomodoro") {
-    flowCount++;
-    updateFlowIndicator();
-    setMode(flowCount % 4 === 0 ? "long-break" : "short-break");
-  } else {
-    setMode("pomodoro");
-  }
-}
 
 function initializeTodoList() {
   const todoInput = document.querySelector('.todo-input');
