@@ -145,6 +145,16 @@ body {
   border: 1px solid #377E57;
   background: transparent;
   color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.todo-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.todo-input:focus {
+  outline: none;
+  border-color: #4a9e71;
 }
 
 .add-todo-btn {
@@ -181,6 +191,22 @@ body {
   border-radius: 50%;
   border: 2px solid #377E57;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #377E57;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.todo-checkbox.checked {
+  background-color: #377E57;
+  color: white;
+}
+
+.todo-item.done .todo-text {
+  text-decoration: line-through;
+  opacity: 0.6;
 }
 
 .todo-text {

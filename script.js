@@ -1,9 +1,10 @@
 let timer;
-let timeRemaining = 1 * 5; // Initial time in seconds
+let timeRemaining = 25 * 60; // Initial time in seconds
 let currentMode = "pomodoro";
 let flowCount = 0;
 let isPaused = true; // Track whether the timer is paused or running
 const audio = new Audio("Ram Bell Sound.mp3");
+let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 const timerDisplay = document.getElementById("timer");
 const modeButtons = document.querySelectorAll(".mode-button");
@@ -131,7 +132,9 @@ function initializeTodoList() {
       const todoItem = document.createElement('div');
       todoItem.className = `todo-item ${todo.done ? 'done' : ''}`;
       todoItem.innerHTML = `
-        <div class="todo-checkbox" onclick="toggleTodo(${index})"></div>
+        <div class="todo-checkbox ${todo.done ? 'checked' : ''}" onclick="toggleTodo(${index})">
+          ${todo.done ? '✓' : ''}
+        </div>
         <div class="todo-text">${todo.text}</div>
         <div class="todo-actions">
           <button class="todo-edit-btn" onclick="editTodo(${index})">✎</button>
@@ -150,17 +153,19 @@ function initializeTodoList() {
 
   window.editTodo = (index) => {
     const newText = prompt('Edit task:', todos[index].text);
-    if (newText !== null) {
-      todos[index].text = newText;
+    if (newText !== null && newText.trim() !== '') {
+      todos[index].text = newText.trim();
       saveTodos();
       renderTodos();
     }
   };
 
   window.deleteTodo = (index) => {
-    todos.splice(index, 1);
-    saveTodos();
-    renderTodos();
+    if (confirm('Are you sure you want to delete this task?')) {
+      todos.splice(index, 1);
+      saveTodos();
+      renderTodos();
+    }
   };
 
   addTodoBtn.addEventListener('click', () => {
