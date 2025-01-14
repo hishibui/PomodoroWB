@@ -3,117 +3,201 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: #161616;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-/* Container for the app */
 .container {
   text-align: center;
+  padding: 20px;
 }
 
 /* Logo section */
 .logo {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
-.logo .star-icon {
-  font-size: 10px;
-  color: #377E57;
+.star {
+  height: 60px;
+  padding: 10px;
 }
 
 .logo h1 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 500;
   margin: 5px 0;
   color: #377E57;
+  letter-spacing: 1px;
 }
 
 /* Timer container styles */
 .timer-container {
   background-color: #377E57;
-  padding: 30px;
-  border-radius: 20px;
-  width: 400px;
+  padding: 20px;
+  border-radius: 15px;
+  width: 380px;
   margin: 0 auto;
 }
 
 /* Mode buttons */
 .modes {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
 .mode-button {
-  flex: 1;
   background: #fff;
-  color: 377E57;
+  color: #377E57;
   border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
-  margin: 0 5px;
-  font-size: 16px;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-size: 14px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .mode-button.active {
-  background-color: #1b1b1b;
+  background-color: #161616;
   color: #fff;
 }
 
 /* Timer display */
 .timer {
-  font-size: 50px;
-  font-weight: 700;
+  font-size: 72px;
+  font-weight: 500;
   color: #fff;
-  margin-bottom: 20px;
+  margin: 30px 0;
 }
 
-/* Controls (Start/Reset buttons) */
+/* Controls */
 .controls {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
+  margin-top: 30px;
 }
 
 .control-button {
   background-color: #fff;
   color: #377E57;
   border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: 8px 25px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 /* Flow indicator */
 .flow-indicator {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 30px;
 }
 
 .circle {
-  width: 10px;
-  height: 10px;
-  background-color: #cdcdcd;
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff50;
   border-radius: 50%;
+  transition: background-color 0.3s ease;
 }
 
 .circle.active {
-  background-color: 377E57;
+  background-color: #377E57;
 }
 
-.star {
-  height: 100px;
-  padding: 20px;
+/* Todo List Styles */
+.todo-section {
+  margin-top: 40px;
+  width: 380px;
+  margin: 40px auto 0;
+}
+
+.todo-section h2 {
+  color: #377E57;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.todo-input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.todo-input {
+  flex: 1;
+  padding: 8px 15px;
+  border-radius: 25px;
+  border: 1px solid #377E57;
+  background: transparent;
+  color: #fff;
+}
+
+.add-todo-btn {
+  background: #377E57;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff10;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.todo-item.done {
+  opacity: 0.6;
+}
+
+.todo-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #377E57;
+  cursor: pointer;
+}
+
+.todo-text {
+  flex: 1;
+  text-align: left;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.todo-edit-btn,
+.todo-delete-btn {
+  background: none;
+  border: none;
+  color: #377E57;
+  cursor: pointer;
+  padding: 4px;
 }

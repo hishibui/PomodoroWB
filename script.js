@@ -4,6 +4,8 @@ let currentMode = "pomodoro";
 let flowCount = 0;
 let isPaused = true; // Track whether the timer is paused or running
 const audio = new Audio("Ram Bell Sound.mp3");
+let isWaitingForContinue = false;
+let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 const timerDisplay = document.getElementById("timer");
 const modeButtons = document.querySelectorAll(".mode-button");
@@ -14,14 +16,9 @@ const flowCircles = document.querySelectorAll(".circle");
 // Request notification permission when the page loads
 document.addEventListener("DOMContentLoaded", () => {
   if (Notification.permission === "default") {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        console.log("Notification permission granted.");
-      } else {
-        console.warn("Notification permission denied.");
-      }
-    });
+    Notification.requestPermission();
   }
+  initializeTodoList();
 });
 
 function showNotification(message) {
@@ -59,18 +56,15 @@ function setMode(mode) {
 }
 
 function handleTimerEnd() {
-  playSound(); // Play bell sound
+  playSound();
+  isWaitingForContinue = true;
+  
   if (currentMode === "pomodoro") {
-    showNotification("Good work! You deserve a break");
-    flowCount++;
-    updateFlowIndicator();
-    setMode(flowCount % 4 === 0 ? "long-break" : "short-break");
+    showNotificationWithContinue("Time's up! Click to take a break");
   } else if (currentMode === "short-break") {
-    showNotification("Good breather, back to work!");
-    setMode("pomodoro");
+    showNotificationWithContinue("Break's over! Click to start working");
   } else if (currentMode === "long-break") {
-    showNotification("Hope you relaxed a bit, get back to your flow state now!");
-    setMode("pomodoro");
+    showNotificationWithContinue("Long break finished! Click to get back to work");
   }
 }
 
@@ -135,3 +129,101 @@ modeButtons.forEach((btn) => btn.addEventListener("click", () => setMode(btn.id)
 // Initialize the timer display and flow indicator
 updateTimerDisplay();
 updateFlowIndicator();
+
+function showNotificationWithContinue(message) {
+  if (!("Notification" in window)) {
+    console.warn("Notifications not supported");
+    return;
+  }
+
+  if (Notification.permission === "granted") {
+    const notification = new Notification("Pomo-Bloom", {
+      body: message,
+      requireInteraction: true
+    });
+
+    notification.onclick = () => {
+      notification.close();
+      if (isWaitingForContinue) {
+        isWaitingForContinue = false;
+        proceedToNextPhase();
+      }
+    };
+  }
+}
+
+function proceedToNextPhase() {
+  if (currentMode === "pomodoro") {
+    flowCount++;
+    updateFlowIndicator();
+    setMode(flowCount % 4 === 0 ? "long-break" : "short-break");
+  } else {
+    setMode("pomodoro");
+  }
+}
+
+function initializeTodoList() {
+  const todoInput = document.querySelector('.todo-input');
+  const addTodoBtn = document.querySelector('.add-todo-btn');
+  const todoList = document.querySelector('.todo-list');
+
+  function saveTodos() {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }
+
+  function renderTodos() {
+    todoList.innerHTML = '';
+    todos.forEach((todo, index) => {
+      const todoItem = document.createElement('div');
+      todoItem.className = `todo-item ${todo.done ? 'done' : ''}`;
+      todoItem.innerHTML = `
+        <div class="todo-checkbox" onclick="toggleTodo(${index})"></div>
+        <div class="todo-text">${todo.text}</div>
+        <div class="todo-actions">
+          <button class="todo-edit-btn" onclick="editTodo(${index})">✎</button>
+          <button class="todo-delete-btn" onclick="deleteTodo(${index})">×</button>
+        </div>
+      `;
+      todoList.appendChild(todoItem);
+    });
+  }
+
+  window.toggleTodo = (index) => {
+    todos[index].done = !todos[index].done;
+    saveTodos();
+    renderTodos();
+  };
+
+  window.editTodo = (index) => {
+    const newText = prompt('Edit task:', todos[index].text);
+    if (newText !== null) {
+      todos[index].text = newText;
+      saveTodos();
+      renderTodos();
+    }
+  };
+
+  window.deleteTodo = (index) => {
+    todos.splice(index, 1);
+    saveTodos();
+    renderTodos();
+  };
+
+  addTodoBtn.addEventListener('click', () => {
+    const text = todoInput.value.trim();
+    if (text) {
+      todos.push({ text, done: false });
+      todoInput.value = '';
+      saveTodos();
+      renderTodos();
+    }
+  });
+
+  todoInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      addTodoBtn.click();
+    }
+  });
+
+  renderTodos();
+}
